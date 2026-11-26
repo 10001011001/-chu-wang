@@ -823,7 +823,7 @@ var Photos = (function () {
     Array.prototype.forEach.call(root.querySelectorAll('img'), function (img) {
       var src = img.getAttribute('src') || '';
       img.decoding = 'async';
-      if (failed[src] || (img.complete && img.naturalWidth === 0)) { toPlaceholder(img); return; }
+      if (failed[src]) { toPlaceholder(img); return; }
       img.addEventListener('error', function () { failed[src] = true; toPlaceholder(img); }, { once: true });
     });
   }
@@ -859,6 +859,8 @@ var Photos = (function () {
       track.replaceChildren(set);
       return ready(set).then(function () {
         if (mine !== seq) return false;
+        /* 載入結束後才檢查:已完成卻沒有尺寸的,才是真的壞圖 */
+        Array.prototype.forEach.call(set.querySelectorAll('img'), function (im) { if (im.complete && im.naturalWidth === 0) toPlaceholder(im); });
         /* 照片太少、排不滿一整個螢幕時,先重複排列補滿 */
         var base = Array.prototype.slice.call(set.children), n = 0;
         while (set.offsetWidth < root.clientWidth * 1.2 && n++ < 8) {
