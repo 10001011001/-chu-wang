@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="zh-Hant">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8"><!-- build 3 -->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chu-Wang | 新媒體藝術・裝置與合作</title>
 <meta name="description" content="你的名字的作品集:劇場與音樂現場中的聲音、投影與互動系統。">
@@ -854,7 +854,7 @@ var Photos = (function () {
       root.classList.remove('run');
       var set = document.createElement('div');
       set.className = 'reel-set';
-      list.forEach(function (n) { set.appendChild(n.cloneNode(true)); });
+      list.forEach(function (n) { set.appendChild(document.importNode(n, true)); });
       guard(set);
       track.replaceChildren(set);
       return ready(set).then(function () {
